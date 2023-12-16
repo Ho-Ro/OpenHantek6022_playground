@@ -97,6 +97,18 @@ jobs:
         path: ${{github.workspace}}/build/packages/*
 
 
+    - name: Upload Linux / macOS / Windows Release Assets
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        prerelease: true
+        files: ./build/packages/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+
   # --- macOS steps ---
   macos-x86_64:
     runs-on: macos-latest
@@ -227,6 +239,15 @@ jobs:
       with:
         name: openhantek_${{ steps.config_git.outputs.git_describe }}_mingw_w64
         path: ./build/packages/*.zip
+
+    - name: Upload Linux / macOS / Windows Release Assets
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        prerelease: true
+        files: ./build/packages/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
     # # --- Tagged Commit -> Upload Release ---
