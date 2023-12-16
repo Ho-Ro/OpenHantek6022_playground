@@ -25,7 +25,7 @@ on:
 
 jobs:
   build:
-    uses: openhantek/OpenHantek6022_playground/.github/workflows/build.yml@main
+    uses: Ho-Ro/OpenHantek6022_playground/.github/workflows/build.yml@main
 
   release:
     needs: build
