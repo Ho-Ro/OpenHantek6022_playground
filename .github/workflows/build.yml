@@ -71,7 +71,6 @@ jobs:
         echo "git_describe=$(git describe)" >> $GITHUB_OUTPUT
 
     - name: Install Ubuntu Build Requirements
-      if: startsWith(matrix.os, 'ubuntu')
       run: |
         mkdir build
         sudo apt update
@@ -83,7 +82,6 @@ jobs:
       # GitHub hosts Linux runners on Standard_DS2_v2 virtual machines in Microsoft Azure:
       # 2-core CPU, 7 GB of RAM memory, 14 GB of SSD disk space
       working-directory: ${{github.workspace}}/build
-      if: startsWith(matrix.os, 'ubuntu')
       run: |
         cp ../CHANGELOG changelog
         cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
@@ -93,7 +91,6 @@ jobs:
 
     - name: Upload Ubuntu Artifacts
       # *.deb *.rpm *.tgz
-      if: startsWith(matrix.os, 'ubuntu')
       uses: actions/upload-artifact@v3
       with:
         name: openhantek_${{ steps.config_git.outputs.git_describe }}_linux_amd64
@@ -131,6 +128,7 @@ jobs:
         mkdir -p /usr/local/opt/qt5/lib/libgcc_s.1.1.dylib.framework
         ln -sf /usr/local/opt/gcc/lib/gcc/11/libgcc_s.1.1.dylib \
           /usr/local/opt/qt5/lib/libgcc_s.1.1.dylib.framework/libgcc_s.1.1.dylib
+        ls -lR /usr/local/opt/qt5/lib/libgcc_s.1.1.dylib.framework
 
     - name: macOS Build
       # GitHub hosts macOS runners in GitHub's own macOS Cloud:
@@ -195,7 +193,6 @@ jobs:
         echo "git_describe=$(git describe)" >> $GITHUB_OUTPUT
 
     - name: Install MSYS2 Packages
-      if: startsWith(matrix.os, 'windows')
       uses: msys2/setup-msys2@v2
       with:
         update: true
@@ -207,7 +204,6 @@ jobs:
           mingw-w64-x86_64-libusb
 
     - name: Start Windows Build
-      if: startsWith(matrix.os, 'windows')
       shell: msys2 {0}
       run: |
         cmake -D CMAKE_PREFIX_PATH=/mingw64/qt5-static -D CMAKE_BUILD_TYPE=$BUILD_TYPE -B build
@@ -228,7 +224,6 @@ jobs:
         ls -l ../packages
 
     - name: Upload Windows Artifacts
-      if: startsWith(matrix.os, 'windows')
       uses: actions/upload-artifact@v3
       with:
         name: openhantek_${{ steps.config_git.outputs.git_describe }}_mingw_w64
