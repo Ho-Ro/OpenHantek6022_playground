@@ -96,6 +96,7 @@ endif()
 
 if(WIN32)
     include(../cmake/docs_on_windows.cmake)
+    include(../cmake/windows_driver.cmake)
 endif()
 
 # install commands
