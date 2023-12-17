@@ -281,7 +281,6 @@ jobs:
       uses: jurplel/install-qt-action@v3
 
     - name: Setup Windows MSVC Build
-        # copy openhantek/CMakeListsMSVC.txt openhantek/CMakeLists.txt &
       run:
         copy CMakeListsMSVC.txt CMakeLists.txt &
         md build &

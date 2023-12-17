@@ -69,14 +69,14 @@ target_compile_features(${PROJECT_NAME} PRIVATE cxx_range_for)
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE "/W4" "/wd4251" "/wd4127" "/wd4275" "/wd4200" "/nologo" "/J" "/Zi")
     target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:DEBUG>:/MDd>")
-    include(../cmake_msvc/docs_on_windows.cmake)
-    include(../cmake_msvc/fftw_on_windows.cmake)
-    include(../cmake_msvc/libusb_on_windows.cmake)
+    include(../cmake/docs_on_windows.cmake)
+    include(../cmake/fftw_on_windows.cmake)
+    include(../cmake/libusb_on_windows.cmake)
 else()
     if( APPLE AND BUILD_MACOSX_BUNDLE )
         # Use own template that defines NSPrincipalClass=NSApplication & NSHighResolutionCapable=True
         set_target_properties( ${PROJECT_NAME} PROPERTIES
-            MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_LIST_DIR}/../cmake_msvc/OpenHantekBundleInfo.plist.in
+            MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_LIST_DIR}/../cmake/OpenHantekBundleInfo.plist.in
         )
     endif()
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wno-long-long -pedantic)
