@@ -63,6 +63,7 @@ add_executable(${PROJECT_NAME} ${EXECTYPE} ${SRC} ${HEADERS} ${UI}
 ${QRC} ${RC} ${TRANSLATION_BIN_FILES} ${TRANSLATION_QRC} ${ICONS})
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::PrintSupport Qt5::OpenGL ${OPENGL_LIBRARIES} )
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_range_for)
+
 if(MSVC)
     include(../cmake/fftw_on_windows.cmake)
     include(../cmake/libusb_on_windows.cmake)
@@ -76,15 +77,6 @@ else()
             MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_LIST_DIR}/../cmake/OpenHantekBundleInfo.plist.in
         )
     endif()
-    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wno-long-long -pedantic)
-    target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:DEBUG>:-DDEBUG>")
-    target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:DEBUG>:-O0>")
-    target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:RELEASE>:-fno-rtti>")
-endif()
-
-if(WIN32)
-    include(../cmake/docs_on_windows.cmake)
-else()
     find_package(libusb REQUIRED)
     target_include_directories(${PROJECT_NAME} PRIVATE ${LIBUSB_INCLUDE_DIRS})
     target_link_libraries(${PROJECT_NAME} ${LIBUSB_LIBRARIES})
@@ -95,6 +87,15 @@ else()
     find_package(FFTW REQUIRED)
     target_include_directories(${PROJECT_NAME} PRIVATE ${FFTW_INCLUDE_DIRS})
     target_link_libraries(${PROJECT_NAME} ${FFTW_LIBRARIES})
+
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wno-long-long -pedantic)
+    target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:DEBUG>:-DDEBUG>")
+    target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:DEBUG>:-O0>")
+    target_compile_options(${PROJECT_NAME} PRIVATE "$<$<CONFIG:RELEASE>:-fno-rtti>")
+endif()
+
+if(WIN32)
+    include(../cmake/docs_on_windows.cmake)
 endif()
 
 # install commands
