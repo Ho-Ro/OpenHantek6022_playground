@@ -1,3 +1,5 @@
+message("libusb_on_windows")
+
 if (NOT WIN32)
     return()
 endif()
