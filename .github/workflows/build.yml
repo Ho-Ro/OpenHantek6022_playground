@@ -258,7 +258,7 @@ jobs:
 
   # --- Windows MSVC steps ---
   windows-msvc_x64:
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
 
     # --- Clone the latest commit ---
