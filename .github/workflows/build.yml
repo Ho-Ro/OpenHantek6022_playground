@@ -234,8 +234,8 @@ jobs:
       shell: bash
       run: |
         # this ZIP package contains only OpenHantek.exe, just get the name
-        ZIP=$(basename packages/openhantek_*_win_x64.zip)
-        rm -f packages/openhantek_*_win_x64.*
+        ZIP=$(basename packages/openhantek_*_mingw_x64.zip)
+        rm -f packages/openhantek_*_mingw_x64.*
         cd openhantek
         7z a ../packages/$ZIP *.exe driver documents
         ls -l ../packages
