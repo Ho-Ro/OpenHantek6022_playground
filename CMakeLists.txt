@@ -17,6 +17,7 @@ if (GIT_EXECUTABLE AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
         OUTPUT_STRIP_TRAILING_WHITESPACE
     )
     # unstable release?
+message(STATUS "VERSION:         ${VERSION}")
     string(FIND ${VERSION} "unstable" REGULAR)
     if( ${REGULAR} ) # not unstable
         set( PACKAGE_VERSION ${VERSION} ) # x.y.z
