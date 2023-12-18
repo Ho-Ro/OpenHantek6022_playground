@@ -11,18 +11,19 @@ if (GIT_EXECUTABLE AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
     )
     # get the git version
     execute_process(
-        COMMAND ${GIT_EXECUTABLE} describe --tags --dirty
+        COMMAND ${GIT_EXECUTABLE} describe --tags --long --dirty
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         OUTPUT_VARIABLE VERSION
         OUTPUT_STRIP_TRAILING_WHITESPACE
     )
     # unstable release?
-message(STATUS "VERSION:         ${VERSION}")
-    string(FIND ${VERSION} "unstable" REGULAR)
-message(STATUS "REGULAR:         ${REGULAR}")
-    if( ${REGULAR} ) # not unstable
-        set( PACKAGE_VERSION ${VERSION} ) # x.y.z
-    else() # unstable
+    #message(STATUS "VERSION:         ${VERSION}")
+    string(FIND ${VERSION} "unstable-0-g" UNSTABLE_POS)
+    string(FIND ${VERSION} "-0-g" ZERO_POS)
+    #message(STATUS "ZERO_POS:        ${TAG_POS}")
+    #message(STATUS "UNSTABLE_POS:    ${UNSTABLE_POS}")
+    if( ${UNSTABLE_POS} EQUAL 0 ) # unstable
+        # message(STATUS "UNSTABLE")
         # add commit hash to version
         execute_process(
             COMMAND ${GIT_EXECUTABLE} describe --long --dirty
@@ -30,11 +31,21 @@ message(STATUS "REGULAR:         ${REGULAR}")
             OUTPUT_VARIABLE VERSION
             OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-        set( PACKAGE_VERSION "${VERSION}-unstable" ) # "x.y.z-p-gxxxxxxx-unstable"
+        set( VERSION "${VERSION}-unstable" ) # "x.y.z-p-gxxxxxxx(-dirty)-unstable"
+    elseif( ${ZERO_POS} GREATER 0 )
+        # message(STATUS "TAG")
+        # x.y.z(-dirty)
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} describe --dirty
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            OUTPUT_VARIABLE VERSION
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
     endif()
+    set( PACKAGE_VERSION ${VERSION} )
 endif()
 
-message(STATUS "VERSION:         ${VERSION}")
+#message(STATUS "VERSION:         ${VERSION}")
 message(STATUS "PACKAGE_VERSION: ${PACKAGE_VERSION}")
 
 set(OpenGL_GL_PREFERENCE GLVND)
