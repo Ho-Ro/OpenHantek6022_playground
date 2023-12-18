@@ -49,7 +49,13 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/")
 
 INCLUDE_DIRECTORIES(".")
 
-add_compile_options(-Wall -Wextra -pedantic)
+if(MSVC)
+  # NOMINMAX to avoid clash with std::min or std::max due to silly macros min and max
+  add_compile_options(/W4 /D_CRT_SECURE_NO_WARNINGS /DNOMINMAX)
+else()
+  add_compile_options(-Wall -Wextra -pedantic)
+endif()
+
 
 # Silence nasty warnings "parameter passing for argument of type ... changed in GCC 7.1"
 if(CMAKE_COMPILER_IS_GNUCXX)
