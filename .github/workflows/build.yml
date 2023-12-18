@@ -35,7 +35,7 @@ jobs:
 # --- Linux (Ubuntu) steps ---
 # ----------------------------
 #
-linux-x86_64:
+  linux-x86_64:
     runs-on: ubuntu-22.04
     steps:
 
@@ -95,7 +95,7 @@ linux-x86_64:
 # --- macOS steps ---
 # -------------------
 #
-macos-x86_64:
+  macos-x86_64:
     runs-on: macos-12
     steps:
 
