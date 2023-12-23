@@ -252,4 +252,3 @@ Without the FSF, we wouldn't have this [free software](https://www.gnu.org/philo
 The program was initially developed by [David Gräff and others](https://github.com/OpenHantek/openhantek/graphs/contributors)
 on [github.com/OpenHantek/openhantek](https://github.com/OpenHantek/openhantek),
 but David [stopped maintaining](https://github.com/OpenHantek/openhantek/issues/277) the programm in December 2018.
-
