@@ -16,17 +16,18 @@ if (GIT_EXECUTABLE AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
         OUTPUT_VARIABLE VERSION
         OUTPUT_STRIP_TRAILING_WHITESPACE
     )
+    message(STATUS "DESCRIBE: ${VERSION}")
     # devdrop or release?
     string(FIND ${VERSION} "devdrop-0-g" DEVDROP_POS)
     string(FIND ${VERSION} "-0-g" ZERO_POS)
-    if( ${DEVDROP_POS} EQUAL 0 ) # "devdrop-x.y.z-p-gxxxxxxx(-dirty)"
+    if( ${DEVDROP_POS} EQUAL 0 ) # "x.y.z-p-gxxxxxxx(-dirty)-devdrop"
         execute_process(
             COMMAND ${GIT_EXECUTABLE} describe --long --dirty
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
             OUTPUT_VARIABLE VERSION
             OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-        set( VERSION "devdrop-${VERSION}" )
+        set( VERSION "${VERSION}-devdrop" )
     elseif( ${ZERO_POS} GREATER 0 ) # x.y.z(-dirty)
         # message(STATUS "TAG")
         execute_process(
